@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvis</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #2b2a2a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #242424;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            animation: slide-up 0.6s ease;
+        }
+        @keyframes slide-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #495057;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            background-color: #343a40;
+            color: #fff;
+            resize: none; /* Prevent resizing */
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p#responseMessage {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-wrapper">
+        <div class="container">
+            <h1>Jarvis</h1>
+            <div>
+                <textarea id="inputText" placeholder="Question..." rows="4" cols="50"></textarea>
+                <button onclick="sendRequest()">Ask Jarvis</button>
+            </div>
+            <p id="responseMessage"></p>
+        </div>
+    </div>
+
+    <script>
+        function sendRequest() {
+            var inputText = document.getElementById('inputText').value;
+            var url = '/submit?inputText=' + encodeURIComponent(inputText);
+
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    var responseMessage = document.getElementById('responseMessage');
+                    if (isValidUrl(data)) {
+                        // If data is a valid URL, create a link element
+                        responseMessage.innerHTML = '<a href="' + data + '" target="_blank">' + data + '</a>';
+                    } else {
+                        // Otherwise, just display the text
+                        responseMessage.textContent = data;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('responseMessage').textContent = 'Error occurred. Please try again.';
+                });
+        }
+
+        function isValidUrl(string) {
+            // Simple URL validation for demonstration
+            var urlPattern = /^(ftp|http|https):\/\/[^ "]+$/;
+            return urlPattern.test(string);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+Server started, listening on 127.0.0.1:12345
+Connection from ('127.0.0.1', 50971)
+Good day, Sir. How may I assist you today?
+It seems like you are looking at an image of someone playing a video game while sitting in a room with an open closet. If you have any specific questions or tasks in mind, feel free to let me know how I can assist you further.
+Error: [WinError 10054] An existing connection was forcibly closed by the remote host
+Connection with ('127.0.0.1', 50971) closed
